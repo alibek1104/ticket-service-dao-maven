@@ -1,51 +1,35 @@
 package ticket_service_dao_maven;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.*;
+import java.sql.Timestamp;
 
+@Entity
+@Table(name = "Ticket")
 public class Ticket {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int userId;
-    private String ticketType;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ticket_type", nullable = false)
+    private TicketType ticketType;
+
+    @Column(name = "creation_date", nullable = false)
     private Timestamp creationDate;
 
-    public Ticket(int id, int userId, String ticketType, Timestamp creationDate) {
-        this.id = id;
-        this.userId = userId;
-        this.ticketType = ticketType;
-        this.creationDate = creationDate;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public int getId() {
-        return id;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public TicketType getTicketType() { return ticketType; }
+    public void setTicketType(TicketType ticketType) { this.ticketType = ticketType; }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getTicketType() {
-        return ticketType;
-    }
-
-    public void setTicketType(String ticketType) {
-        this.ticketType = ticketType;
-    }
-
-    public Timestamp getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
-    }
+    public Timestamp getCreationDate() { return creationDate; }
+    public void setCreationDate(Timestamp creationDate) { this.creationDate = creationDate; }
 }
